@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.11",
+    "howler": "^2.2.4",
     "quasar": "^2.16.4",
     "vue": "^3.2.45"
   },
