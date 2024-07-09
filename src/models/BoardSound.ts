@@ -1,27 +1,30 @@
+import { v4 as uuidv4 } from 'uuid';
 import Sound from "./Sound"
 import Track from "./Track"
 import Board from "./Board"
 import SoundPlayConfiguration from "./SoundPlayConfiguration";
 
 interface BoardSoundData {
+  id?: string;
   board: Board;
   sound: Sound;
-  sound_play_configuration: SoundPlayConfiguration;
+  play_configuration?: SoundPlayConfiguration;
   row: number;
   column: number;
 }
 
 export class BoardSound {
+  id: string;
   sound: Sound;
-  sound_play_configuration: SoundPlayConfiguration;
+  play_configuration: SoundPlayConfiguration;
   row: number;
   column: number;
-  tracks: Array<Track> = [];
   board: Board;
 
   constructor(data: BoardSoundData) {
+    this.id = data.id || `local-${uuidv4()}`
     this.sound = data.sound
-    this.sound_play_configuration = data.sound_play_configuration
+    this.play_configuration = data.play_configuration ?? this.sound.play_configuration
     this.row = data.row
     this.column = data.column
     this.board = data.board

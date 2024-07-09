@@ -1,8 +1,6 @@
 export class SoundPlayConfiguration {
-  volume: number = 100;
+  volume: number = 1;
   repeat: boolean = false;
-  fadeIn: boolean = false;
-  fadeOut: boolean = false;
 };
 
 export default SoundPlayConfiguration;

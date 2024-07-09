@@ -1,11 +1,16 @@
-import path from "path";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
+import tsconfigPaths from 'vite-tsconfig-paths';
+import tailwind from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
+// import prefixer from 'postcss-prefix-selector'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    tsconfigPaths(),
+
     vue({
       template: { transformAssetUrls },
     }),
@@ -16,9 +21,13 @@ export default defineConfig({
       sassVariables: "src/quasar-variables.sass",
     }),
   ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+  css: {
+    postcss: {
+      plugins: [
+        tailwind(),
+        autoprefixer(),
+        // prefixer({ prefix: '.soundboardjs' })
+      ],
     },
   },
 });
