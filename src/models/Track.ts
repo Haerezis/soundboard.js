@@ -41,12 +41,21 @@ export class Track {
   load() {
     this.howl.on("loaderror", (_, error) => console.error(`${this.to_str_prefix()} -- load error : ${error}`))
     this.howl.on("playerror", (_, error) => console.error(`${this.to_str_prefix()} -- play error ", ${error}`))
-    this.howl.on("play", () => this._playing = true)
+    this.howl.on("play", () => {
+      this._playing = true;
+      (function set_update_duration_timeout(self: Track) {
+        if (self.playing) {
+          self.update_position_from_howl()
+          setTimeout(() => {
+            set_update_duration_timeout(self)
+          }, 200)
+        }
+      })(this)
+    })
     this.howl.on("pause", () => this._playing = false)
-    this.howl.on("load", () => { console.log("y"); this._duration = this.howl.duration() })
-    this.howl.on("seek", () => this._position = this.howl.seek())
+    this.howl.on("load", () => this._duration = this.howl.duration())
     this.howl.on("end", () => this.onplayend())
-    this.howl.load()
+    this.howl.load();
   }
 
   play() {
@@ -83,6 +92,10 @@ export class Track {
   //value in "seconds"
   set position(value: number) {
     this.howl.seek(value)
+    this.update_position_from_howl()
+  }
+  update_position_from_howl() {
+    this._position = this.howl.seek()
   }
 
   get volume() {
@@ -103,8 +116,11 @@ export class Track {
 
   onplayend() {
     console.debug(`${this.to_str_prefix()} -- onplayend`)
+
+    this._position = this.duration
     if (!this.repeat && this._onplayend_callback) {
       console.debug(`${this.to_str_prefix()} -- onplayend -- FINISHED`)
+      this._playing = false
       this._onplayend_callback(this)
     }
   }

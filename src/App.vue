@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import Board from "@/models/Board"
 import boards from '@/fixtures/boards'
 import BoardGrid from '@/components/BoardGrid.vue'
-import { TrackCard } from './components/ui/track-card'
 
 import { use_tracks_store } from '@/stores/TrackStore'
 
@@ -14,9 +13,6 @@ const rightDrawerOpen = ref(true)
 
 const current_board = ref()
 const set_board = (board: Board) => current_board.value = board
-
-const track = reactive(tracks_store.create(boards[0].board_sounds[0]))
-track.load()
 </script>
 
 <template>
@@ -54,13 +50,7 @@ track.load()
     </q-drawer>
 
     <q-page-container>
-      <!-- <BoardGrid v-if="current_board" v-model="current_board" /> -->
-
-      <div class="w-full h-svh flex justify-center content-center">
-        <div class="w-96">
-          <TrackCard v-model="track" />
-        </div>
-      </div>
+      <BoardGrid v-if="current_board" v-model="current_board" />
     </q-page-container>
   </q-layout>
 </template>

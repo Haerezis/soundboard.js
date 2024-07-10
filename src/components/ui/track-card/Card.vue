@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Icon } from '@iconify/vue';
-import { clamp } from 'lodash';
-
-import { PlayerProgress } from "@/components/ui/player-progress"
+import { PlayerSlider } from '@/components/ui/player-slider'
 import { Button } from '@/components/ui/button'
 import { seconds_to_HMS } from "@/utils/time";
 import Track from '@/models/Track';
@@ -16,42 +14,29 @@ const playing = computed(() => track.value.playing)
 
 const name = computed(() => track.value.name)
 
-const played_time = computed(() => track.value.position)
-const total_time = computed(() => track.value.duration)
-const played_percent = computed(() => total_time.value ? played_time.value / total_time.value : 0)
 const progress_color = computed(() => playing.value ? 'bg-primary' : 'bg-gray-500')
-const progress_value = computed(() => seeking.value ? seek_value.value : played_percent.value)
 
-
-const progress_component = ref()
-const seek_value = ref(0)
-const seeking = ref(false)
-function start_seek(e: MouseEvent) {
-  const set_seek_value_from_mouse_event = (e: MouseEvent) => {
-    const progress_root_bb = progress_component.value.$el.getBoundingClientRect()
-    seek_value.value = clamp(
-      (e.clientX - progress_root_bb.left) / (progress_root_bb.right - progress_root_bb.left),
-      0,
-      1
-    )
-
-    seeking.value = true
+const progress_value = ref(track.value.position)
+const progress_seeking = ref(false)
+const progress_value_for_slider = computed({
+  get() { return [progress_value.value] },
+  set(v) {
+    progress_seeking.value = true
+    progress_value.value = v[0]
   }
-
-  set_seek_value_from_mouse_event(e)
-
-  function mousemove_handler(e: MouseEvent) {
-    set_seek_value_from_mouse_event(e)
-  }
-  function mouseup_handler() {
-    track.value.position = seek_value.value * total_time.value
-    seeking.value = false
-    window.removeEventListener("mousemove", mousemove_handler)
-    window.removeEventListener("mouseup", mouseup_handler)
-  }
-  window.addEventListener('mousemove', mousemove_handler)
-  window.addEventListener('mouseup', mouseup_handler)
+})
+function commit_seek_value(v: number[]) {
+  track.value.position = v[0]
+  progress_value.value = v[0]
+  progress_seeking.value = false
 }
+watch(track.value, () => {
+  if (!progress_seeking.value) {
+    progress_value.value = track.value.position
+  }
+})
+
+
 
 
 const sound_icon_url = computed(() => track.value.icon_url || IconPlaceholderUrl)
@@ -86,7 +71,8 @@ function toggle_volume() {
 
     <div class="soundicon flex justify-center items-center w-12">
       <img :src="sound_icon_url" class="w-8 h-8 rounded-md" />
-      <Icon :icon="play_pause_icon" @click="toggle_play" class="play-pause cursor-pointer absolute text-4xl" />
+      <Icon :icon="play_pause_icon" @click="toggle_play"
+        class="play-pause bg-gray-500/20 transition-opacity cursor-pointer absolute text-3xl" />
     </div>
 
 
@@ -100,11 +86,11 @@ function toggle_volume() {
       </div>
 
       <div class="flex flex-nowrap mb-1">
-        <PlayerProgress ref="progress_component" :model-value="progress_value * 100" @mousedown="start_seek"
-          :bg-color="progress_color" class="h-5 cursor-pointer">
-          <span class="leading-6">{{ seconds_to_HMS(total_time * progress_value) }} / {{ seconds_to_HMS(total_time)
+        <PlayerSlider v-model="progress_value_for_slider" :min="0" :max="track.duration" :step="0.1"
+          :bg-color="progress_color" :animation="!progress_seeking" class="h-5" @value-commit="commit_seek_value">
+          <span class="leading-6">{{ seconds_to_HMS(progress_value) }} / {{ seconds_to_HMS(track.duration)
             }}</span>
-        </PlayerProgress>
+        </PlayerSlider>
 
         <span class="flex justify-center content-center mx-1">
           <Icon :icon="track.volume > 0 ? 'mdi:volume-high' : 'mdi:mute'" @click="toggle_volume"
