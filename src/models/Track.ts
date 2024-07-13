@@ -4,7 +4,7 @@ import { BoardSound } from "./BoardSound";
 import { Sound } from "./Sound";
 import { SoundPlayConfiguration } from "./SoundPlayConfiguration";
 
-export type TrackPlayEndCallback = (track: Track) => void
+export type TrackTerminationCallback = (track: Track) => void
 
 export class Track {
   id: string;
@@ -18,17 +18,17 @@ export class Track {
   private _playing: boolean = false;
   private _volume: number = 1;//between 0 & 1
   private _repeat: boolean = false;
-  private _onplayend_callback?: TrackPlayEndCallback;
+  private _termination_callback?: TrackTerminationCallback;
 
 
-  constructor(boardsound: BoardSound, configuration?: SoundPlayConfiguration, onplayend_callback?: TrackPlayEndCallback) {
+  constructor(boardsound: BoardSound, configuration?: SoundPlayConfiguration, termination_callback?: TrackTerminationCallback) {
     this.id = uuidv4()
     this.created_at = new Date()
     this.boardsound = boardsound
     this.sound = boardsound.sound
     this._volume = configuration?.volume ?? this.sound.play_configuration.volume ?? this._volume
     this._repeat = configuration?.repeat ?? this.sound.play_configuration.repeat ?? this._repeat
-    this._onplayend_callback = onplayend_callback
+    this._termination_callback = termination_callback
 
     this.howl = new Howl({
       src: [this.sound.blob.url as string],
@@ -67,7 +67,8 @@ export class Track {
   }
 
   stop() {
-    this.howl.unload()
+    this.howl.stop()
+    this.terminate()
   }
 
   get name() {
@@ -115,14 +116,15 @@ export class Track {
   }
 
   onplayend() {
-    console.debug(`${this.to_str_prefix()} -- onplayend`)
-
     this._position = this.duration
-    if (!this.repeat && this._onplayend_callback) {
-      console.debug(`${this.to_str_prefix()} -- onplayend -- FINISHED`)
-      this._playing = false
-      this._onplayend_callback(this)
+    if (!this.repeat && this._termination_callback) {
+      this.terminate()
     }
+  }
+
+  terminate() {
+    this.howl.unload()
+    this._termination_callback?.(this)
   }
 
   to_str_prefix() {

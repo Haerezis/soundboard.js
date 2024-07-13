@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { Icon } from '@iconify/vue';
-import { PlayerSlider } from '@/components/ui/player-slider'
+import { PlayerProgressSlider } from '@/components/ui/player-progress-slider'
+import { VolumeSlider } from '@/components/ui/volume-slider'
 import { Button } from '@/components/ui/button'
 import { seconds_to_HMS } from "@/utils/time";
 import Track from '@/models/Track';
@@ -50,14 +51,12 @@ function toggle_play() {
   }
 }
 
+function stop() {
+  track.value.stop()
+}
 
 function toggle_repeat() {
   track.value.repeat = !track.value.repeat
-}
-
-function toggle_volume() {
-  //todo
-  track.value.volume = track.value.volume > 0 ? 0 : 1
 }
 
 //TODO repeated callback to update played_time
@@ -70,36 +69,61 @@ function toggle_volume() {
   <div class="root flex flex-nowrap w-full rounded-lg bg-gray-200 select-none">
 
     <div class="soundicon flex justify-center items-center w-12">
-      <img :src="sound_icon_url" class="w-8 h-8 rounded-md" />
-      <Icon :icon="play_pause_icon" @click="toggle_play"
-        class="play-pause bg-gray-500/20 transition-opacity cursor-pointer absolute text-3xl" />
+      <img
+        :src="sound_icon_url"
+        class="w-8 h-8 rounded-md"
+      />
+      <Icon
+        :icon="play_pause_icon"
+        @click="toggle_play"
+        class="play-pause bg-gray-500/20 transition-opacity cursor-pointer absolute text-3xl"
+      />
     </div>
 
 
 
     <div class="min-w-0 flex flex-col w-full ">
       <div class="w-full flex flex-nowrap">
-        <p class="w-full truncate leading-6" :title="name">{{ name }}</p>
-        <Button variant="ghost" class="h-6 w-8 shrink-0 p-0 px-2">
+        <p
+          class="w-full truncate leading-6"
+          :title="name"
+        >
+          {{ name }}
+        </p>
+        <Button
+          variant="ghost"
+          class="h-6 w-8 shrink-0 p-0 px-2"
+          @click="stop"
+        >
           <Icon icon="mdi:close" />
         </Button>
       </div>
 
       <div class="flex flex-nowrap mb-1">
-        <PlayerSlider v-model="progress_value_for_slider" :min="0" :max="track.duration" :step="0.1"
-          :bg-color="progress_color" :animation="!progress_seeking" class="h-5" @value-commit="commit_seek_value">
-          <span class="leading-6">{{ seconds_to_HMS(progress_value) }} / {{ seconds_to_HMS(track.duration)
-            }}</span>
-        </PlayerSlider>
+        <PlayerProgressSlider
+          v-model="progress_value_for_slider"
+          :min="0"
+          :max="track.duration"
+          :step="0.1"
+          :bg-color="progress_color"
+          :animation="!progress_seeking"
+          class="h-5"
+          @value-commit="commit_seek_value"
+        >
+          <span class="leading-6"> {{ seconds_to_HMS(progress_value) }} / {{ seconds_to_HMS(track.duration) }} </span>
+        </PlayerProgressSlider>
 
         <span class="flex justify-center content-center mx-1">
-          <Icon :icon="track.volume > 0 ? 'mdi:volume-high' : 'mdi:mute'" @click="toggle_volume"
-            class="cursor-pointer text-xl" :class="track.volume > 0 && 'text-primary' || 'text-gray-500'" />
+          <VolumeSlider v-model="track.volume" />
         </span>
 
         <span class="flex justify-center content-center mr-2">
-          <Icon icon="mdi:repeat" @click="toggle_repeat" class="cursor-pointer text-xl"
-            :class="track.repeat && 'text-primary' || 'text-gray-500'" />
+          <Icon
+            icon="mdi:repeat"
+            @click="toggle_repeat"
+            class="cursor-pointer text-xl"
+            :class="track.repeat && 'text-primary' || 'text-gray-500'"
+          />
         </span>
       </div>
     </div>

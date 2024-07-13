@@ -5,6 +5,7 @@ import boards from '@/fixtures/boards'
 import BoardGrid from '@/components/BoardGrid.vue'
 
 import { use_tracks_store } from '@/stores/TrackStore'
+import { TrackCard } from './components/ui/track-card'
 
 const tracks_store = use_tracks_store()
 
@@ -16,8 +17,17 @@ const set_board = (board: Board) => current_board.value = board
 </script>
 
 <template>
-  <q-layout class="soundboardjs" view="lHr lpR lFr">
-    <q-drawer v-model="leftDrawerOpen" :width="300" :breakpoint="500" bordered class="bg-grey-9">
+  <q-layout
+    class="soundboardjs"
+    view="lHr lpR lFr"
+  >
+    <q-drawer
+      v-model="leftDrawerOpen"
+      :width="300"
+      :breakpoint="500"
+      bordered
+      class="bg-grey-9"
+    >
       <q-scroll-area class="fit">
 
         <q-list>
@@ -25,8 +35,16 @@ const set_board = (board: Board) => current_board.value = board
             <q-icon name="grid_view" /> Boards
           </q-item-label>
 
-          <template v-for="(board, index) in boards" :key="board.name">
-            <q-item @click="set_board(board)" :active="board.name === current_board?.name" clickable v-ripple>
+          <template
+            v-for="(board, index) in boards"
+            :key="board.name"
+          >
+            <q-item
+              @click="set_board(board)"
+              :active="board.name === current_board?.name"
+              clickable
+              v-ripple
+            >
               <q-item-section>
                 {{ board.name }}
               </q-item-section>
@@ -36,21 +54,37 @@ const set_board = (board: Board) => current_board.value = board
       </q-scroll-area>
     </q-drawer>
 
-    <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
-      <q-item-label header class="text-center">
+    <q-drawer
+      show-if-above
+      v-model="rightDrawerOpen"
+      side="right"
+      :width="384"
+      bordered
+    >
+      <q-item-label
+        header
+        class="text-center"
+      >
         <q-icon name="video_settings" /> Controls
         <q-list>
           <q-item class="q-pa-none">
           </q-item>
-          <q-item v-for="track in tracks_store.all">
-            <q-item-label>{{ track.sound.name }}</q-item-label>
+          <q-item
+            v-for="(track, i) in tracks_store.all"
+            :key="track.id"
+            class="w-80"
+          >
+            <TrackCard v-model="tracks_store.all[i]" />
           </q-item>
         </q-list>
       </q-item-label>
     </q-drawer>
 
     <q-page-container>
-      <BoardGrid v-if="current_board" v-model="current_board" />
+      <BoardGrid
+        v-if="current_board"
+        v-model="current_board"
+      />
     </q-page-container>
   </q-layout>
 </template>

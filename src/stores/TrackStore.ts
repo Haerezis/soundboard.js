@@ -37,12 +37,14 @@ export const use_tracks_store = defineStore('tracks', () => {
   }
 
 
-  function create(boardsound: BoardSound): Track {
-    const track = new Track(
+  function create(boardsound: BoardSound) {
+    // @ts-ignore: reactive messes with variable type, making TS not accept the assignation
+    const track: Track = reactive(new Track(
       boardsound,
       boardsound.play_configuration,
-      (track) => destroy(track)
-    )
+      (track) => remove(track)
+    ))
+    track.load()
 
     upsert(track)
 
@@ -50,8 +52,8 @@ export const use_tracks_store = defineStore('tracks', () => {
   }
 
   function destroy(track: Track): void {
-    remove(track)
     track.stop()
+    remove(track)
   }
 
   return { collection, all, all_grouped_by_sound_id, all_grouped_by_boardsound_id, create, destroy }
