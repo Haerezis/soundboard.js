@@ -12,17 +12,27 @@ const sound_matrix = computed(() => {
   return matrix
 })
 
+const boardsounds = computed(() => {
+  const list = Array(model.value.row_count * model.value.column_count).fill(undefined)
+  model.value.board_sounds.forEach((bs) => list[bs.row * model.value.row_count + bs.column])
+  return list
+})
+
 </script>
 
 <template>
-  <div class="boardgrid q-pa-md" :style="`grid-template-columns: repeat(${model.column_count}, 1fr);`">
-    <template v-for="(_, row) in model.row_count">
-      <template v-for="(_, column) in model.column_count">
-        <div class="q-ma-md">
-          <BoardSoundFilled v-if="sound_matrix[row][column]" v-model="sound_matrix[row][column]" />
-          <BoardSoundEmpty v-else />
-        </div>
-      </template>
+  <div
+    class="boardgrid q-pa-md"
+    :style="`grid-template-columns: repeat(${model.column_count}, 1fr);`"
+  >
+    <template v-for="(boardsound) in boardsounds">
+      <div class="q-ma-md">
+        <BoardSoundFilled
+          v-if="boardsound"
+          v-model="boardsound"
+        />
+        <BoardSoundEmpty v-else />
+      </div>
     </template>
   </div>
 </template>
