@@ -37,7 +37,12 @@ export const use_tracks_store = defineStore('tracks', () => {
   }
 
 
-  function create(boardsound: BoardSound) {
+  function create(boardsound: BoardSound): Track | null {
+    //If track already playing for non-concurrent sound, return early
+    if (!boardsound.play_configuration.concurrent && !!all_grouped_by_sound_id.value[boardsound.sound.id]) {
+      return null
+    }
+
     // @ts-ignore: reactive messes with variable type, making TS not accept the assignation
     const track: Track = reactive(new Track(
       boardsound,
