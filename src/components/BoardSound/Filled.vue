@@ -14,12 +14,12 @@ import IconPlaceholderUrl from '@/assets/placeholders/generic_image.png'
 
 
 const model = defineModel({ type: BoardSound, required: true })
-
 const tracks_store = use_tracks_store()
 
 const root_elt_html_ref = ref()
-
 const sound_icon_url = computed(() => model.value.sound.icon_url || IconPlaceholderUrl)
+const latest_track = computed(() => last(tracks_store.all_grouped_by_boardsound_id[model.value.id]))
+const active = computed(() => !!latest_track.value)
 
 function play() {
   console.log("play")
@@ -27,10 +27,6 @@ function play() {
   track?.play()
 
   return track
-}
-
-function tmp(e: MouseEvent) {
-  console.log(e.detail)
 }
 
 function stop_track(track: Track | null | undefined) {
@@ -50,7 +46,6 @@ function longpress_play_and_stop() {
   })
 }
 
-const latest_track = computed(() => last(tracks_store.all_grouped_by_boardsound_id[model.value.id]))
 function stop_latest_track() {
   stop_track(latest_track.value)
 }
@@ -60,30 +55,67 @@ function stop_latest_track() {
 <template>
   <div
     ref="root_elt_html_ref"
-    class="boardsound relative rounded-3xl overflow-hidden flex justify-center items-center"
-    :class="{ active: !!latest_track }"
+    class="boardsound relative rounded-3xl flex flex-col justify-center items-center"
+    :class="{ active: active }"
     @click.prevent="play"
     @long-press="longpress_play_and_stop"
     data-long-press-delay="500"
   >
-    <div class="absolute inset-x-0 top-0 h-1/5 flex justify-center items-center">
-      {{ model?.sound?.name }}
+    <!-- Sound Name -->
+    <div class="h-1/5 px-[10%] w-full flex justify-center items-center">
+      <span class="truncate leading-loose">{{ model?.sound?.name }}</span>
     </div>
 
-    <div class="w-4/6 h-4/6">
+    <!-- Sound Icon -->
+    <div class="w-3/5 h-3/5">
       <img
         :src="sound_icon_url"
         class="object-cover w-full h-full rounded-md"
       />
     </div>
 
-    <div class="absolute inset-x-0 bottom-0 h-1/6 flex justify-center items-center">
+    <!-- Stop Button -->
+    <div
+      class="invisible w-full h-1/5 pt-[5%] flex justify-center items-center"
+      :class="{ '!visible': active }"
+    >
       <Button
         class="w-full h-full rounded-b-3xl rounded-t-none bg-red-500"
         @click.stop="stop_latest_track"
       >
-        <Icon icon="mdi:stop" />
+        <Icon
+          class="w-auto h-full aspect-square"
+          icon="mdi:stop"
+        />
       </Button>
+    </div>
+
+
+
+
+    <!-- Configuration Pips -->
+    <div class="w-[15%] absolute top-[20%] -left-[7.5%] flex flex-col justify-center">
+      <div
+        v-if="model.play_configuration.repeat"
+        class="w-full aspect-square bg-secondary rounded-md mb-2"
+        title="Repeat play enabled"
+      >
+        <Icon
+          icon="mdi:repeat"
+          class="w-full h-full"
+        />
+      </div>
+
+      <div
+        v-if="model.play_configuration.concurrent"
+        class="w-full aspect-square bg-secondary rounded-md mb-2"
+        title="Concurrent play allowed"
+      >
+        <Icon
+          icon="mdi:playlist-music"
+          class="w-full h-full"
+        />
+      </div>
     </div>
   </div>
 </template>
