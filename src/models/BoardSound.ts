@@ -8,10 +8,10 @@ interface BoardSoundData {
   id?: string;
   board: Board;
   sound: Sound;
-  play_configuration: SoundPlayConfiguration;
+  play_configuration?: SoundPlayConfiguration;
   row: number;
   column: number;
-  color: string;
+  color?: string;
 }
 
 export class BoardSound {
@@ -21,12 +21,12 @@ export class BoardSound {
   row: number;
   column: number;
   board: Board;
-  color: string;
+  color?: string;
 
   constructor(data: BoardSoundData) {
     this.id = data.id || `local-${uuidv4()}`
     this.sound = data.sound
-    this.play_configuration = Object.assign(new SoundPlayConfiguration(), data.play_configuration ?? {})
+    this.play_configuration = Object.assign(new SoundPlayConfiguration(), data.play_configuration ?? data.sound.play_configuration)
     this.row = data.row
     this.column = data.column
     this.board = data.board

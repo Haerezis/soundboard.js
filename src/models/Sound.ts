@@ -5,7 +5,7 @@ interface SoundData {
   id: string;
   name: string;
   url: string;
-  icon_url: string;
+  icon_url?: string;
   play_configuration?: SoundPlayConfiguration;
 }
 
@@ -13,7 +13,7 @@ export class Sound {
   id: string;
   name: string;
   blob: SoundBlob;
-  icon_url: string;
+  icon_url?: string;
   play_configuration: SoundPlayConfiguration;
 
   constructor(data: SoundData) {

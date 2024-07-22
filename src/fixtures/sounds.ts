@@ -6,7 +6,11 @@ export default [
     name: "Retro Instrument - crystal - C01.mp3",
     url:
       "/sounds/Retro Instrument - crystal - C01.mp3",
-
+    play_configuration: {
+      volume: 1,
+      repeat: true,
+      concurrent: true
+    }
   }),
   new Sound({
     id: "2",
