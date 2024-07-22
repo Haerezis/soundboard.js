@@ -9,6 +9,9 @@ import Track from '@/models/Track';
 
 import IconPlaceholderUrl from '@/assets/placeholders/generic_image.png'
 
+
+
+
 const track = defineModel<Track>({ required: true })
 
 const playing = computed(() => track.value.playing)

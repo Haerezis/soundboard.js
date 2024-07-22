@@ -5,7 +5,10 @@ const editable = ref(false)
 </script>
 
 <template>
-  <div class="boardsound" :class="{ editable: editable }">
+  <div
+    class="boardsound rounded-3xl"
+    :class="{ editable: editable }"
+  >
   </div>
 </template>
 

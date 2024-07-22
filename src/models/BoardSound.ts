@@ -11,6 +11,7 @@ interface BoardSoundData {
   play_configuration: SoundPlayConfiguration;
   row: number;
   column: number;
+  color: string;
 }
 
 export class BoardSound {
@@ -20,6 +21,7 @@ export class BoardSound {
   row: number;
   column: number;
   board: Board;
+  color: string;
 
   constructor(data: BoardSoundData) {
     this.id = data.id || `local-${uuidv4()}`
@@ -28,6 +30,7 @@ export class BoardSound {
     this.row = data.row
     this.column = data.column
     this.board = data.board
+    this.color = data.color
   }
 };
 

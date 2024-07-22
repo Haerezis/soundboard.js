@@ -1,65 +1,57 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import type { Ref } from 'vue'
 import { last } from "lodash"
-import { onLongPress } from '@vueuse/core'
 import BoardSound from "@/models/BoardSound"
 import Track from "@/models/Track"
 import { use_tracks_store } from '@/stores/TrackStore'
+import "long-press-event"
+import { Button } from '@/components/ui/button'
+import { Icon } from '@iconify/vue';
+
+import IconPlaceholderUrl from '@/assets/placeholders/generic_image.png'
+
+
+
 
 const model = defineModel({ type: BoardSound, required: true })
 
 const tracks_store = use_tracks_store()
 
+const root_elt_html_ref = ref()
+
+const sound_icon_url = computed(() => model.value.sound.icon_url || IconPlaceholderUrl)
 
 function play() {
+  console.log("play")
   const track = tracks_store.create(model.value)
   track?.play()
 
   return track
 }
 
+function tmp(e: MouseEvent) {
+  console.log(e.detail)
+}
+
 function stop_track(track: Track | null | undefined) {
+  console.log("stop_track")
   if (track) {
     tracks_store.destroy(track)
   }
 }
 
-
-
-
-//Click & longclick/longpress behaviour
-const htmlRefRoot = ref<HTMLElement | null>(null)
-const long_press_track = ref<Track | null>()
-onLongPress(
-  htmlRefRoot,
-  (e: MouseEvent) => {
-    if (e.button != 0) {
-      return
-    }
-    long_press_track.value = play()
-  },
-  {
-    distanceThreshold: 100,
-    delay: 500,
-    onMouseUp: (_, __, is_long_press) => {
-      if (is_long_press) {
-        stop_track(long_press_track.value)
-        long_press_track.value = null
-      }
-      else {
-        //A non-longpress mouseup event is only in case of click.
-        //In that case, run default behavious of playing the sound
-        play()
-      }
-    },
-  },
-)
-
+const longpress_track = ref<Track | null>()
+function longpress_play_and_stop() {
+  longpress_track.value = play()
+  root_elt_html_ref.value?.addEventListener("mouseup", function stop_and_cleanup() {
+    stop_track(longpress_track.value)
+    longpress_track.value = null
+    root_elt_html_ref.value?.removeEventListener("mouseup", stop_and_cleanup)
+  })
+}
 
 const latest_track = computed(() => last(tracks_store.all_grouped_by_boardsound_id[model.value.id]))
-function stop_latest() {
-  console.log("foo")
+function stop_latest_track() {
   stop_track(latest_track.value)
 }
 
@@ -67,12 +59,32 @@ function stop_latest() {
 
 <template>
   <div
-    ref="htmlRefRoot"
-    class="boardsound"
+    ref="root_elt_html_ref"
+    class="boardsound relative rounded-3xl overflow-hidden flex justify-center items-center"
     :class="{ active: !!latest_track }"
-    @click.right.prevent="stop_latest"
+    @click.prevent="play"
+    @long-press="longpress_play_and_stop"
+    data-long-press-delay="500"
   >
-    {{ model?.sound?.name }}
+    <div class="absolute inset-x-0 top-0 h-1/5 flex justify-center items-center">
+      {{ model?.sound?.name }}
+    </div>
+
+    <div class="w-4/6 h-4/6">
+      <img
+        :src="sound_icon_url"
+        class="object-cover w-full h-full rounded-md"
+      />
+    </div>
+
+    <div class="absolute inset-x-0 bottom-0 h-1/6 flex justify-center items-center">
+      <Button
+        class="w-full h-full rounded-b-3xl rounded-t-none bg-red-500"
+        @click.stop="stop_latest_track"
+      >
+        <Icon icon="mdi:stop" />
+      </Button>
+    </div>
   </div>
 </template>
 
@@ -83,7 +95,6 @@ $background-color: lightblue;
 
 .boardsound {
   background-color: $background-color;
-  border: skyblue solid;
 }
 
 @keyframes blink {

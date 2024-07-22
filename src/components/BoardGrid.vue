@@ -25,7 +25,10 @@ const boardsounds = computed(() => {
     class="boardgrid q-pa-md"
     :style="`grid-template-columns: repeat(${model.column_count}, 1fr);`"
   >
-    <template v-for="(boardsound) in boardsounds">
+    <template
+      v-for="(boardsound) in boardsounds"
+      :key="boardsound?.id"
+    >
       <div class="q-ma-md">
         <BoardSoundFilled
           v-if="boardsound"
