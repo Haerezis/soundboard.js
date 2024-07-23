@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@asika32764/vue-animate": "^3.0.2",
     "@quasar/extras": "^1.16.11",
     "@radix-icons/vue": "^1.0.0",
     "@types/lodash": "^4.17.6",

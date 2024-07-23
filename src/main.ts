@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 
 
 import './assets/index.css'
+import '@asika32764/vue-animate/dist/vue-animate.css';
 
 // Assumes your root component is App.vue
 // and placed in same folder as main.js

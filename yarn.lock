@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
+"@asika32764/vue-animate@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@asika32764/vue-animate/-/vue-animate-3.0.2.tgz#b40f514f1b8151d1068e86c1afc934e09a8f5960"
+  integrity sha512-VHfFDTVarHCvDlICgRl+4zOu0StstATMvr1dsPPxnfIefBIQFfxOCXtNu0xiNUMI4wPzhnaJIuRCYwT46PFpVw==
+
 "@babel/parser@^7.23.6":
   version "7.23.6"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.23.6.tgz#ba1c9e512bda72a47e285ae42aff9d2a635a9e3b"
