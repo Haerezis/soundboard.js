@@ -55,7 +55,7 @@ function stop_latest_track() {
 <template>
   <div
     ref="root_elt_html_ref"
-    class="boardsound relative rounded-3xl flex flex-col justify-center items-center"
+    class="boardsound relative rounded-3xl flex flex-col justify-center items-center bg-[lightblue] cursor-pointer"
     :class="{ active: active }"
     @click.prevent="play"
     @long-press="longpress_play_and_stop"
@@ -67,7 +67,7 @@ function stop_latest_track() {
     </div>
 
     <!-- Sound Icon -->
-    <div class="w-3/5 h-3/5">
+    <div class="w-3/5 h-4/5 pb-[20%]">
       <img
         :src="sound_icon_url"
         class="object-cover w-full h-full rounded-md"
@@ -75,20 +75,21 @@ function stop_latest_track() {
     </div>
 
     <!-- Stop Button -->
-    <div
-      class="invisible w-full h-1/5 pt-[5%] flex justify-center items-center"
-      :class="{ '!visible': active }"
+    <Transition
+      enter-active-class="fadeUp-enter-active"
+      leave-active-class="fadeDown-leave-active"
     >
       <Button
-        class="w-full h-full rounded-b-3xl rounded-t-none bg-red-500"
+        v-if="active"
+        class="absolute -bottom-[12.5%] rounded-full h-1/4 w-1/4 bg-red-500 p-[5%]"
         @click.stop="stop_latest_track"
       >
         <Icon
-          class="w-auto h-full aspect-square"
+          class="w-full h-full"
           icon="mdi:stop"
         />
       </Button>
-    </div>
+    </Transition>
 
 
 
@@ -97,7 +98,7 @@ function stop_latest_track() {
     <div class="w-[15%] absolute top-[20%] -left-[7.5%] flex flex-col justify-center">
       <div
         v-if="model.play_configuration.repeat"
-        class="w-full aspect-square bg-secondary rounded-md mb-2"
+        class="w-full aspect-square .boardsound rounded-md bg-[lightblue] mb-2"
         title="Repeat play enabled"
       >
         <Icon
@@ -108,7 +109,7 @@ function stop_latest_track() {
 
       <div
         v-if="model.play_configuration.concurrent"
-        class="w-full aspect-square bg-secondary rounded-md mb-2"
+        class="w-full aspect-square bg-[lightblue] rounded-md mb-2"
         title="Concurrent play allowed"
       >
         <Icon
@@ -124,10 +125,6 @@ function stop_latest_track() {
 @import "./common.scss";
 
 $background-color: lightblue;
-
-.boardsound {
-  background-color: $background-color;
-}
 
 @keyframes blink {
   0% {
