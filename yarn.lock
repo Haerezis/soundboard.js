@@ -310,6 +310,11 @@
   dependencies:
     undici-types "~5.26.4"
 
+"@types/shade-blend-color@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/shade-blend-color/-/shade-blend-color-1.0.3.tgz#db44dcc1e412d1913d9fac82cc04005fa508ab58"
+  integrity sha512-0LuSVOKIVmOKWe/Xvx6NnmJWaCMbHn1z5HvwFf+OfIgoh7s9h/plD+dE5ovYqB9A+XmKqfVt2myPUAbpb4Nqjg==
+
 "@types/uuid@^9.0.8":
   version "9.0.8"
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.8.tgz#7545ba4fc3c003d6c756f651f3bf163d8f0f29ba"
@@ -1242,6 +1247,11 @@ semver@^7.5.4:
   integrity sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==
   dependencies:
     lru-cache "^6.0.0"
+
+shade-blend-color@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/shade-blend-color/-/shade-blend-color-1.0.0.tgz#cfa10d3673a22ba31d552a0e793b708bc24be0bc"
+  integrity sha512-Tnp/ppF5h3YhPCpeHiZJ2DRnvmo4luu9qpMhuksCT+QInIXJ9alA3Vd9klfEi+RY8Oh7MaK5vzH/qcLo892L1g==
 
 shebang-command@^2.0.0:
   version "2.0.0"

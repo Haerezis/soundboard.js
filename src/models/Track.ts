@@ -1,16 +1,21 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Howl } from "howler";
-import { BoardSound } from "./BoardSound";
+import { Boardsound, BoardsoundColorName } from "./Boardsound";
 import { Sound } from "./Sound";
 import { SoundPlayConfiguration } from "./SoundPlayConfiguration";
 
 export type TrackTerminationCallback = (track: Track) => void
 
+export interface TrackConstructorOptions {
+  play_configuration?: SoundPlayConfiguration,
+  termination_callback?: TrackTerminationCallback,
+}
+
 export class Track {
   id: string;
   created_at: Date;
   sound: Sound;
-  boardsound: BoardSound;
+  boardsound: Boardsound;
   howl: Howl;
   ready: boolean = false;
   private _position: number = 0;
@@ -21,14 +26,14 @@ export class Track {
   private _termination_callback?: TrackTerminationCallback;
 
 
-  constructor(boardsound: BoardSound, configuration?: SoundPlayConfiguration, termination_callback?: TrackTerminationCallback) {
+  constructor(boardsound: Boardsound, options: TrackConstructorOptions) {
     this.id = uuidv4()
     this.created_at = new Date()
     this.boardsound = boardsound
     this.sound = boardsound.sound
-    this._volume = configuration?.volume ?? this.sound.play_configuration.volume ?? this._volume
-    this._repeat = configuration?.repeat ?? this.sound.play_configuration.repeat ?? this._repeat
-    this._termination_callback = termination_callback
+    this._volume = options?.play_configuration?.volume ?? this.sound.play_configuration.volume ?? this._volume
+    this._repeat = options?.play_configuration?.repeat ?? this.sound.play_configuration.repeat ?? this._repeat
+    this._termination_callback = options?.termination_callback
 
     this.howl = new Howl({
       src: [this.sound.blob.url as string],

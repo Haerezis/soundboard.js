@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { last } from "lodash"
-import BoardSound from "@/models/BoardSound"
+import Boardsound from "@/models/Boardsound"
 import Track from "@/models/Track"
 import { use_tracks_store } from '@/stores/TrackStore'
 import "long-press-event"
@@ -13,7 +13,7 @@ import IconPlaceholderUrl from '@/assets/placeholders/generic_image.png'
 
 
 
-const model = defineModel({ type: BoardSound, required: true })
+const model = defineModel({ type: Boardsound, required: true })
 const tracks_store = use_tracks_store()
 
 const root_elt_html_ref = ref()
@@ -55,7 +55,7 @@ function stop_latest_track() {
 <template>
   <div
     ref="root_elt_html_ref"
-    class="boardsound relative rounded-3xl flex flex-col justify-center items-center bg-[lightblue] cursor-pointer"
+    class="boardsound relative rounded-3xl flex flex-col justify-center items-center bg-[lightblue]"
     :class="{ active: active }"
     @click.prevent="play"
     @long-press="longpress_play_and_stop"
@@ -67,7 +67,7 @@ function stop_latest_track() {
     </div>
 
     <!-- Sound Icon -->
-    <div class="w-3/5 h-4/5 pb-[20%]">
+    <div class="w-3/5 h-3/5">
       <img
         :src="sound_icon_url"
         class="object-cover w-full h-full rounded-md"
@@ -75,21 +75,20 @@ function stop_latest_track() {
     </div>
 
     <!-- Stop Button -->
-    <Transition
-      enter-active-class="fadeUp-enter-active"
-      leave-active-class="fadeDown-leave-active"
+    <div
+      class="absoltute w-full h-1/5 flex justify-center items-center"
+      :class="{ '!visible': true || active }"
     >
       <Button
-        v-if="active"
-        class="absolute -bottom-[12.5%] rounded-full h-1/4 w-1/4 bg-red-500 p-[5%]"
+        class="w-2/6 h-4/6 bg-red-500 shadow-md"
         @click.stop="stop_latest_track"
       >
         <Icon
-          class="w-full h-full"
+          class="w-auto h-full aspect-square"
           icon="mdi:stop"
         />
       </Button>
-    </Transition>
+    </div>
 
 
 
@@ -109,7 +108,7 @@ function stop_latest_track() {
 
       <div
         v-if="model.play_configuration.concurrent"
-        class="w-full aspect-square bg-[lightblue] rounded-md mb-2"
+        class="w-full aspect-square bg-secondary bg-[lightblue] rounded-md mb-2"
         title="Concurrent play allowed"
       >
         <Icon

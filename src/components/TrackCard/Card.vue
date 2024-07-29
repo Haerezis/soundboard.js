@@ -95,10 +95,13 @@ function toggle_repeat() {
         </p>
         <Button
           variant="ghost"
-          class="h-6 w-8 shrink-0 p-0 px-2"
+          class="h-6 w-8 shrink-0 p-0 px-2 bg-red-500 hover:bg-red-400"
           @click="stop"
         >
-          <Icon icon="mdi:close" />
+          <Icon
+            class="text-white"
+            icon="mdi:stop"
+          />
         </Button>
       </div>
 

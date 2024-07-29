@@ -1,25 +1,21 @@
 <script setup lang="ts">
+import Base from "./Base.vue";
 import { ref } from "vue"
 
 const editable = ref(false)
 </script>
 
 <template>
-  <div
-    class="boardsound rounded-3xl"
+  <Base
+    class="bg-gray-100"
     :class="{ editable: editable }"
   >
-  </div>
+
+  </Base>
 </template>
 
 <style lang="scss" scoped>
-@import "./common.scss";
-
-.boardsound {
-  background-color: rgb(248, 248, 248);
-}
-
-.boardsound.editable {
+.editable {
   border: lightgrey dashed;
 }
 </style>

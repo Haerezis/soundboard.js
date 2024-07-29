@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { last } from "lodash"
-import BoardSound from "@/models/BoardSound"
+import Boardsound from "@/models/Boardsound"
 import Track from "@/models/Track"
 import { use_tracks_store } from '@/stores/TrackStore'
 import "long-press-event"
@@ -13,7 +13,7 @@ import IconPlaceholderUrl from '@/assets/placeholders/generic_image.png'
 
 
 
-const model = defineModel({ type: BoardSound, required: true })
+const model = defineModel({ type: Boardsound, required: true })
 const tracks_store = use_tracks_store()
 
 const root_elt_html_ref = ref()

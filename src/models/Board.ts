@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import BoardSound from "./BoardSound"
+import Boardsound from "./Boardsound"
 
 interface BoardData {
   id?: string;
@@ -9,7 +9,7 @@ interface BoardData {
   icon_url?: string;
   column_count: number;
   row_count: number;
-  board_sounds?: Array<BoardSound>;
+  board_sounds?: Array<Boardsound>;
 };
 
 export class Board {
@@ -19,7 +19,7 @@ export class Board {
   icon_url: string = "";
   column_count: number;
   row_count: number;
-  board_sounds: Array<BoardSound> = [];
+  board_sounds: Array<Boardsound> = [];
 
   constructor(data: BoardData) {
     this.id = data.id || `local-${uuidv4()}`
