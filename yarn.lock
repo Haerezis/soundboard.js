@@ -394,7 +394,7 @@
     "@vue/compiler-dom" "3.4.1"
     "@vue/shared" "3.4.1"
 
-"@vue/devtools-api@^6.5.0":
+"@vue/devtools-api@^6.5.0", "@vue/devtools-api@^6.6.3":
   version "6.6.3"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.6.3.tgz#b23a588154cba8986bba82b6e1d0248bde3fd1a0"
   integrity sha512-0MiMsFma/HqA6g3KLKn+AGpL1kgKhFWszC9U29NfpWK5LE7bjeXxySWJrOJ77hBz+TBrBQ7o4QJqbPbqbs8rJw==
@@ -1058,6 +1058,11 @@ path-scurry@^1.11.1:
     lru-cache "^10.2.0"
     minipass "^5.0.0 || ^6.0.2 || ^7.0.0"
 
+path-to-regexp@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-7.1.0.tgz#f4ee387b4ff85829e3f863ecb63f61a57aa635a1"
+  integrity sha512-ZToe+MbUF4lBqk6dV8GKot4DKfzrxXsplOddH8zN3YK+qw9/McvP7+4ICjZvOne0jQhN4eJwHsX6tT0Ns19fvw==
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
@@ -1474,6 +1479,13 @@ vue-demi@>=0.13.0, vue-demi@>=0.14.5, vue-demi@>=0.14.8:
   version "0.14.8"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.8.tgz#00335e9317b45e4a68d3528aaf58e0cec3d5640a"
   integrity sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==
+
+vue-router@4:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.4.2.tgz#bc7bf27f108fc15e5cc2a30b314a662275e2b2bb"
+  integrity sha512-1qNybkn2L7QsLzaXs8nvlQmRKp8XF8DCxZys/Jr1JpQcHsKUxTKzTxCVA1G7NfBfwRIBgCJPoujOG5lHCCNUxw==
+  dependencies:
+    "@vue/devtools-api" "^6.6.3"
 
 vue-template-compiler@^2.7.14:
   version "2.7.16"

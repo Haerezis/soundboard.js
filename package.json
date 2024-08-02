@@ -19,6 +19,7 @@
     "howler": "^2.2.4",
     "lodash": "^4.17.21",
     "long-press-event": "^2.5.0",
+    "path-to-regexp": "^7.1.0",
     "pinia": "^2.1.7",
     "quasar": "^2.16.4",
     "radix-vue": "^1.9.0",
@@ -26,7 +27,8 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@iconify/vue": "^4.1.2",

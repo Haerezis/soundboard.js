@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import Board from '@/models/Board';
+import { is_active, navigate } from '@/router';
 import { Separator } from '@/components/ui/separator';
 import { Icon } from '@iconify/vue';
 
@@ -9,46 +10,62 @@ const model = defineModel({
   type: Array<Board>,
   default: []
 })
-const data = computed(() => [
-  {
-    headline: "General",
-    items: [
-      { icon: "mdi:home", label: "Home" },
-      { icon: "mdi:library-music", label: "Sound Library" },
-    ],
-    separator: true,
-  },
-  {
-    headline: "Boards",
-    items: [
-      ...model.value.map((b) => ({ icon: "mdi:grid", label: b.name })),
-      { icon: "mdi:add", label: "Add new..." }
-    ]
-  }
+
+const general_section = computed(() => [
+  { icon: "mdi:library-music", label: "Sound Library", path_name: "sound-library", path_params: {} },
 ])
+
+const boards_section = computed(() => model.value.map((b) => ({ icon: "mdi:grid", label: b.name, path_name: "board", path_params: { id: b.id } })))
 
 </script>
 
 <template>
-  <div class="w-[360px] min-h-full p-3 flex flex-col border-x overflow-auto">
-    <template v-for="section in data">
-      <h2 class="h-14 px-4 py-4 font-bold text-primary/80">{{ section.headline }}</h2>
-      <ul>
-        <li
-          v-for="item in section.items"
-          class="h-14 py-4 px-4 flex text-primary/80 rounded-full cursor-pointer hover:bg-secondary focus:bg-secondary"
-        >
-          <Icon
-            :icon="item.icon"
-            class="w-6 h-6 mr-3 text-primary/80"
-          />
-          <span>{{ item.label }}</span>
-        </li>
-      </ul>
-      <Separator
-        v-if="section.separator"
-        class="my-2"
-      />
-    </template>
+  <div class="navigation-drawer">
+
+    <h2 class="navigation-drawer-headline">General</h2>
+    <ul>
+      <li
+        v-for="item in general_section"
+        class="navigation-drawer-item"
+        :aria-current="is_active(item.path_name, item.path_params) ? 'page' : false"
+        @click="navigate(item.path_name, item.path_params)"
+      >
+        <Icon
+          :icon="item.icon"
+          class="navigation-drawer-item-icon"
+        />
+        <span>{{ item.label }}</span>
+      </li>
+    </ul>
+
+
+
+    <Separator class="my-2" />
+
+
+
+
+    <h2 class="navigation-drawer-headline">Boards</h2>
+    <ul>
+      <li
+        v-for="item in boards_section"
+        class="navigation-drawer-item"
+        :aria-current="is_active(item.path_name, item.path_params) ? 'page' : false"
+        @click="navigate(item.path_name, item.path_params)"
+      >
+        <Icon
+          :icon="item.icon"
+          class="navigation-drawer-item-icon"
+        />
+        <span>{{ item.label }}</span>
+      </li>
+      <li class="navigation-drawer-item">
+        <Icon
+          icon="mdi:add"
+          class="navigation-drawer-item-icon"
+        />
+        <span>Add Board..</span>
+      </li>
+    </ul>
   </div>
 </template>

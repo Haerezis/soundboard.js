@@ -6,7 +6,7 @@ import Boardsound from "@/models/Boardsound"
 import sounds from "@/fixtures/sounds"
 
 const board1 = new Board({
-  id: uuidv4(),
+  id: "40c9a4fc-0bb7-4d0a-8956-b658f39fa55b",
   name: "Board 1",
   description: "My first board",
   column_count: 5,
@@ -50,7 +50,7 @@ board1.board_sounds.push(new Boardsound({
 
 
 const board2 = new Board({
-  id: uuidv4(),
+  id: "77ed214d-32fe-4ffe-a356-fa9ce48af0d0",
   name: "Board 2",
   description: "My second board",
   column_count: 4,

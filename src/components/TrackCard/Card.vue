@@ -18,6 +18,7 @@ const playing = computed(() => track.value.playing)
 
 const name = computed(() => track.value.name)
 
+const root_style = computed(() => `background-color: ${track.value.boardsound.color_hexcode()}`)
 const progress_color = computed(() => playing.value ? 'bg-primary' : 'bg-gray-500')
 
 const progress_value = ref(track.value.position)
@@ -69,7 +70,10 @@ function toggle_repeat() {
 </script>
 
 <template>
-  <div class="root flex flex-nowrap w-full rounded-lg bg-gray-200 select-none">
+  <div
+    class="root flex flex-nowrap w-full rounded-lg select-none"
+    :style="root_style"
+  >
 
     <div class="soundicon flex justify-center items-center w-12">
       <img

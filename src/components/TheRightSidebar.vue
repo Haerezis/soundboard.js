@@ -10,13 +10,13 @@ const tracks_store = use_tracks_store()
 </script>
 
 <template>
-  <div class="w-[360px] min-h-full p-3 flex flex-col border-x overflow-auto">
-    <h2 class="h-14 px-4 py-4 font-bold text-center text-primary/80">Tracks</h2>
+  <div class="navigation-drawer">
+    <h2 class="navigation-drawer-headline">Tracks</h2>
 
     <div
       v-for="(track, i) in tracks_store.all"
       :key="track.id"
-      class="w-[336px] h-14 py-4"
+      class="w-full h-14"
     >
       <TrackCard v-model="tracks_store.all[i]" />
     </div>

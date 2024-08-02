@@ -76,3 +76,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer base {
+  .navigation-drawer {
+    @apply w-[360px] min-h-full p-3 flex flex-col border-x overflow-y-auto
+  }
+
+  .navigation-drawer-headline {
+    @apply h-14 px-4 py-4 font-bold text-foreground/80
+  }
+
+  .navigation-drawer-item {
+    @apply h-14 py-4 px-4 flex rounded-full cursor-pointer
+      hover:bg-accent hover:text-accent-foreground
+      focus:bg-accent focus:text-accent-foreground
+      aria-current-page:bg-primary aria-current-page:text-primary-foreground
+      active:bg-primary/20
+  }
+
+  .navigation-drawer-item-icon {
+    @apply w-6 h-6 mr-3
+  }
+}
