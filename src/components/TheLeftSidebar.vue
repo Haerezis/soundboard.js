@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import Board from '@/models/Board';
 import { is_active, navigate } from '@/router';
 import { Separator } from '@/components/ui/separator';
+import { Button } from './ui/button';
 import { Icon } from '@iconify/vue';
 
 const model = defineModel({
@@ -17,6 +18,7 @@ const general_section = computed(() => [
 
 const boards_section = computed(() => model.value.map((b) => ({ icon: "mdi:grid", label: b.name, path_name: "board", path_params: { id: b.id } })))
 
+//TODO add new board modal/drawer
 </script>
 
 <template>
@@ -59,12 +61,15 @@ const boards_section = computed(() => model.value.map((b) => ({ icon: "mdi:grid"
         />
         <span>{{ item.label }}</span>
       </li>
-      <li class="navigation-drawer-item">
-        <Icon
-          icon="mdi:add"
-          class="navigation-drawer-item-icon"
-        />
-        <span>Add Board..</span>
+
+      <li class="h-14">
+        <Button class="w-full h-full justify-start rounded-full">
+          <Icon
+            icon="mdi:add"
+            class="navigation-drawer-item-icon"
+          />
+          <span>Add Board..</span>
+        </Button>
       </li>
     </ul>
   </div>

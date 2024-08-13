@@ -17,6 +17,7 @@
     "paths": {
       "@/*": ["./*"],
       "models/*": ["models/*"],
+      "types/*": ["types/*"],
       "fixtures/*": ["fixtures/*"],
       "components/*": ["components/*"],
     }

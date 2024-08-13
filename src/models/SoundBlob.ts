@@ -14,6 +14,8 @@ class SoundBlob {
     this.blob = await fetch(this.url, this.fetch_init).then((r) => r.blob())
     this.blob_url = URL.createObjectURL(this.blob)
     this.extname = this.find_extname()
+
+    return this
   }
 
   find_extname(): string {

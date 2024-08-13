@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import boards from '@/fixtures/boards'
-import TheLeftSidebar from "@/components/TheLeftSidebar.vue"
-import TheRightSidebar from "@/components/TheRightSidebar.vue"
-import TheBoardGrid from "@/components/TheBoardGrid.vue"
+import SoundCard from "@/components/SoundCard"
+import SortingDropdownMenu from "@/components/SoundCard/SortingDropdownMenu.vue"
+import NameFilteringInput from "@/components/SoundCard/NameFilteringInput.vue"
 import { ref } from 'vue';
 
-const current_board = ref(boards[0])
+const sound1 = boards[0].board_sounds[0].sound
+const sound2 = boards[1].board_sounds[0].sound
+
+const tmp = ref("")
 </script>
 
 <template>
-  <div class="flex h-screen">
-    <TheLeftSidebar
-      v-model="boards"
-      class="shrink-0"
-    />
-    <TheBoardGrid
-      v-if="current_board"
-      v-model="current_board"
-    />
-    <TheRightSidebar class="shrink-0" />
+  <div class="flex h-screen justify-center items-center">
+    <NameFilteringInput v-model="tmp" />
+    <!-- <div class="w-[75%]"> -->
+    <!--   <SoundCard -->
+    <!--     v-model="sound1" -->
+    <!--     class=" border border-gray-300" -->
+    <!--   /> -->
+    <!-- </div> -->
   </div>
 </template>

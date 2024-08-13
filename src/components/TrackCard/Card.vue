@@ -115,7 +115,7 @@ function toggle_repeat() {
           :min="0"
           :max="track.duration"
           :step="0.1"
-          :bg-color="progress_color"
+          :fg-color="progress_color"
           :animation="!progress_seeking"
           class="h-5"
           @value-commit="commit_seek_value"

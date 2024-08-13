@@ -90,7 +90,7 @@
     @apply h-14 py-4 px-4 flex rounded-full cursor-pointer
       hover:bg-accent hover:text-accent-foreground
       focus:bg-accent focus:text-accent-foreground
-      aria-current-page:bg-primary aria-current-page:text-primary-foreground
+      aria-current-page:bg-primary/70 aria-current-page:text-primary-foreground
       active:bg-primary/20
   }
 
